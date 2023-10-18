@@ -13,57 +13,45 @@ const SliderComponent = {
 };
 
 const HtmlSlider = function GeneratedImageSliderFactory(node) {
-  let currentSlide = 0;
+  const looper = ImageLooper(node);
 
-  const images = [];
+  const children = [...node.children];
+  children.forEach((child) => {
+    node.removeChild(child);
+  });
+
   const build = () => {
-    node.style.display = "flex";
-    node.style.overflow = "hidden";
-    node.style.justifyContent = "center";
-    storeChildNodes();
-    startSlider();
+    looper.start();
     return node;
   };
-
-  function storeChildNodes() {
-    const children = [...node.children];
-    children.forEach((child) => {
-      child.style.height = "101%";
-      child.style.width = "101%";
-      images.push(child);
-      node.removeChild(child);
-    });
-  }
-
-  function startSlider() {
-    display();
-    setInterval(() => {
-      next();
-    }, 5000);
-  }
-
-  function next() {
-    currentSlide < images.length - 1 ? currentSlide++ : (currentSlide = 0);
-    display();
-  }
-
-  function display() {
-    const i = currentSlide;
-    const previous = images.at(i - 1);
-    const current = images.at(i);
-    const next = images.at(i + 1) || images.at(0);
-
-    removeChildren(node);
-    node.append(previous, current, next);
-  }
 
   return {
     build,
   };
 };
 
-function removeChildren(node) {
-  while (node.firstElementChild) {
-    node.removeChild(node.firstElementChild);
+function ImageLooper(parent) {
+  let index = 0;
+  const images = [...parent.children];
+
+  images.forEach((img) => {
+    img.style.width = "100%";
+    img.style.height = "100%";
+  });
+
+  function start() {
+    parent.append(images[index]);
+    setInterval(() => {
+      next();
+    }, 5000);
   }
+
+  function next() {
+    index < images.length - 1 ? index++ : (index = 0);
+    parent.replaceChild(images[index], parent.firstElementChild);
+  }
+
+  return {
+    start,
+  };
 }
