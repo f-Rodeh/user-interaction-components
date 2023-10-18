@@ -5,3 +5,9 @@ body {
   background-color: #0c0c0c;
   color: #e6e6fa;
 }
+
+.image-slider > img {
+  width: 100vw;
+  height: 30vw;
+  object-fit: contain;
+}
