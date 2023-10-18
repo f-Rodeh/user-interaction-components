@@ -6,8 +6,12 @@ body {
   color: #e6e6fa;
 }
 
+.image-slider {
+  width: 50vw;
+  height: 15vw;
+  margin: 0 auto;
+}
+
 .image-slider > img {
-  width: 100vw;
-  height: 30vw;
   object-fit: contain;
 }
