@@ -3,7 +3,7 @@ export { SliderComponent };
 const init = () => {
   const sliderNodes = document.querySelectorAll(".image-slider");
   sliderNodes.forEach((node, index) => {
-    // TODO: apply style to the node
+    styleSlider(node);
     const slider = ImageSlider(node);
     sliderNodes[index].replaceWith(slider);
   });
@@ -17,7 +17,7 @@ const ImageSlider = (node) => {
   let index = 0;
   const length = node.children.length;
   const looper = ImageLooper(node);
-  const indicator = SlideIndicator();
+  const indicator = SlideIndicator(node);
 
   node.firstElementChild.addEventListener("load", () =>
     setInterval(slideNext, 5000)
@@ -56,9 +56,25 @@ const ImageLooper = (parent) => {
   };
 };
 
-const SlideIndicator = () => {
+const SlideIndicator = (parent, length) => {
+  const root = document.createElement("div");
+  styleIndicator(root);
+  parent.append(root);
+
   function update() {}
   return {
     update,
   };
 };
+
+function styleSlider(slider) {
+  slider.style.position = "relative";
+}
+
+function styleIndicator(indicator) {
+  indicator.classList.add("image-slide-indicator");
+  indicator.style.position = "absolute";
+  indicator.style.bottom = "10%";
+  indicator.style.left = "50%";
+  indicator.style.transform = "translate(-50%, 0)";
+}
