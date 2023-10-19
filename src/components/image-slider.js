@@ -3,8 +3,8 @@ export { SliderComponent };
 const init = () => {
   const sliderNodes = document.querySelectorAll(".image-slider");
   sliderNodes.forEach((node, index) => {
-    const slider = HtmlSlider(node);
-    sliderNodes[index].replaceWith(slider.build());
+    const slider = ImageSlider(node);
+    sliderNodes[index].replaceWith(slider);
   });
 };
 
@@ -12,26 +12,28 @@ const SliderComponent = {
   init,
 };
 
-const HtmlSlider = function GeneratedImageSliderFactory(node) {
-  const looper = ImageLooper(node);
-
+const ImageSlider = (node) => {
+  let index = 0;
   const children = [...node.children];
-  children.forEach((child) => {
-    node.removeChild(child);
-  });
+  const looper = ImageLooper(node);
+  const indicator = SlideIndicator();
 
-  const build = () => {
-    looper.start();
-    return node;
-  };
+  looper.start();
 
-  return {
-    build,
-  };
+  setInterval(() => {
+    incrementIndex();
+    looper.update(index);
+    indicator.update(index);
+  }, 5000);
+
+  function incrementIndex() {
+    index < children.length - 1 ? index++ : (index = 0);
+  }
+
+  return node;
 };
 
-function ImageLooper(parent) {
-  let index = 0;
+const ImageLooper = (parent) => {
   const images = [...parent.children];
 
   images.forEach((img) => {
@@ -40,18 +42,23 @@ function ImageLooper(parent) {
   });
 
   function start() {
-    parent.append(images[index]);
-    setInterval(() => {
-      next();
-    }, 5000);
+    images.forEach((img) => parent.removeChild(img));
+    parent.append(images[0]);
   }
 
-  function next() {
-    index < images.length - 1 ? index++ : (index = 0);
+  function update(index) {
     parent.replaceChild(images[index], parent.firstElementChild);
   }
 
   return {
     start,
+    update,
   };
-}
+};
+
+const SlideIndicator = () => {
+  function update() {}
+  return {
+    update,
+  };
+};
