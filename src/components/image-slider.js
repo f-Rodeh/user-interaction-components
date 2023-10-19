@@ -3,6 +3,7 @@ export { SliderComponent };
 const init = () => {
   const sliderNodes = document.querySelectorAll(".image-slider");
   sliderNodes.forEach((node, index) => {
+    // TODO: apply style to the node
     const slider = ImageSlider(node);
     sliderNodes[index].replaceWith(slider);
   });
@@ -18,13 +19,16 @@ const ImageSlider = (node) => {
   const looper = ImageLooper(node);
   const indicator = SlideIndicator();
 
-  looper.start();
+  node.firstElementChild.addEventListener("load", () =>
+    setInterval(slideNext, 5000)
+  );
 
-  setInterval(() => {
+  function slideNext() {
+    console.log();
     incrementIndex();
     looper.update(index);
     indicator.update(index);
-  }, 5000);
+  }
 
   function incrementIndex() {
     index < length - 1 ? index++ : (index = 0);
@@ -39,19 +43,15 @@ const ImageLooper = (parent) => {
   images.forEach((img) => {
     img.style.width = "100%";
     img.style.height = "100%";
-  });
-
-  function start() {
-    images.forEach((img) => parent.removeChild(img));
+    parent.removeChild(img);
     parent.append(images[0]);
-  }
+  });
 
   function update(index) {
     parent.replaceChild(images[index], parent.firstElementChild);
   }
 
   return {
-    start,
     update,
   };
 };
