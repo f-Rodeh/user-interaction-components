@@ -14,7 +14,7 @@ const SliderComponent = {
 
 const ImageSlider = (node) => {
   let index = 0;
-  const children = [...node.children];
+  const length = node.children.length;
   const looper = ImageLooper(node);
   const indicator = SlideIndicator();
 
@@ -27,7 +27,7 @@ const ImageSlider = (node) => {
   }, 5000);
 
   function incrementIndex() {
-    index < children.length - 1 ? index++ : (index = 0);
+    index < length - 1 ? index++ : (index = 0);
   }
 
   return node;
