@@ -15,9 +15,3 @@ body {
 .image-slider > img {
   object-fit: contain;
 }
-
-.image-slide-indicator {
-  height: 40px;
-  width: 200px;
-  background-color: gray;
-}

@@ -3,7 +3,7 @@ export { SliderComponent };
 const init = () => {
   const sliderNodes = document.querySelectorAll(".image-slider");
   sliderNodes.forEach((node, index) => {
-    styleSlider(node);
+    applyStyle(node, { position: "relative" });
     const slider = ImageSlider(node);
     sliderNodes[index].replaceWith(slider);
   });
@@ -13,11 +13,28 @@ const SliderComponent = {
   init,
 };
 
+const indicatorItem = {
+  width: "1em",
+  height: "0.33em",
+  borderRadius: "1em",
+  backgroundColor: "red",
+};
+
+const indicator = {
+  position: "absolute",
+  bottom: "1em",
+  left: "50%",
+  transform: "translate(-50%, 0)",
+  display: "flex",
+  gap: "0.8em",
+  // backgroundColor: "gray", // TODO: remove
+};
+
 const ImageSlider = (node) => {
   let index = 0;
   const length = node.children.length;
   const looper = ImageLooper(node);
-  const indicator = SlideIndicator(node);
+  const indicator = SlideIndicator(node, length);
 
   node.firstElementChild.addEventListener("load", () =>
     setInterval(slideNext, 5000)
@@ -58,8 +75,19 @@ const ImageLooper = (parent) => {
 
 const SlideIndicator = (parent, length) => {
   const root = document.createElement("div");
-  styleIndicator(root);
+  applyStyle(root, indicator);
   parent.append(root);
+
+  for (let i = 0; i < length; i++) {
+    const dot = document.createElement("div");
+    applyStyle(dot, indicatorItem);
+
+    root.append(dot);
+    console.log(dot.parentElement.computedStyleMap());
+    dot.style.backgroundColor = dot.parentElement
+      .computedStyleMap()
+      .get("color");
+  }
 
   function update() {}
   return {
@@ -68,13 +96,10 @@ const SlideIndicator = (parent, length) => {
 };
 
 function styleSlider(slider) {
+  // TODO: remove
   slider.style.position = "relative";
 }
 
-function styleIndicator(indicator) {
-  indicator.classList.add("image-slide-indicator");
-  indicator.style.position = "absolute";
-  indicator.style.bottom = "10%";
-  indicator.style.left = "50%";
-  indicator.style.transform = "translate(-50%, 0)";
+function applyStyle(target, styleObject) {
+  Object.assign(target.style, styleObject);
 }
