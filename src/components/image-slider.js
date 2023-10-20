@@ -81,12 +81,9 @@ const SlideIndicator = (parent, length) => {
   for (let i = 0; i < length; i++) {
     const dot = document.createElement("div");
     applyStyle(dot, indicatorItem);
-
     root.append(dot);
-    console.log(dot.parentElement.computedStyleMap());
-    dot.style.backgroundColor = dot.parentElement
-      .computedStyleMap()
-      .get("color");
+
+    dot.style.backgroundColor = root.computedStyleMap().get("color");
   }
 
   function update() {}
@@ -94,11 +91,6 @@ const SlideIndicator = (parent, length) => {
     update,
   };
 };
-
-function styleSlider(slider) {
-  // TODO: remove
-  slider.style.position = "relative";
-}
 
 function applyStyle(target, styleObject) {
   Object.assign(target.style, styleObject);
