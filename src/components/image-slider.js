@@ -17,17 +17,21 @@ const indicatorItem = {
   width: "1em",
   height: "0.33em",
   borderRadius: "1em",
-  backgroundColor: "red",
 };
 
 const indicator = {
+  boxSizing: "border-box",
   position: "absolute",
-  bottom: "1em",
-  left: "50%",
-  transform: "translate(-50%, 0)",
+  bottom: "0",
+  width: "100%",
+  height: "14%",
   display: "flex",
+  justifyContent: "center",
+  alignItems: "flex-end",
   gap: "0.8em",
-  // backgroundColor: "gray", // TODO: remove
+  padding: "1em",
+  backgroundImage:
+    "linear-gradient(transparent, rgba(12,12,12,0.1), rgba(12,12,12,0.3), rgba(12,12,12,0.6))",
 };
 
 const ImageSlider = (node) => {
@@ -84,6 +88,12 @@ const SlideIndicator = (parent, length) => {
     root.append(dot);
 
     dot.style.backgroundColor = root.computedStyleMap().get("color");
+  }
+  console.log(parent);
+  console.log(parent.dataset);
+
+  if (parent.dataset.noGradient) {
+    root.style.backgroundImage = "none";
   }
 
   function update() {}
