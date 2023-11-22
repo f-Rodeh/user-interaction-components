@@ -70,7 +70,7 @@ function Navigation(parent, length) {
 
   function highlight(index) {
     container.childNodes.forEach((dot, i) => {
-      dot.style.opacity = 0.6;
+      dot.style.opacity = 0.5;
       if (i === index) dot.style.opacity = 1;
     });
   }
