@@ -9,6 +9,7 @@ body {
 .image-slider {
   width: 100vw;
   height: 30vw;
+  overflow: hidden;
   margin: 0 auto;
 }
 
