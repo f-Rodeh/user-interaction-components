@@ -1,9 +1,10 @@
 export { SliderComponent };
+import "./image-slider.css";
 
 const init = () => {
   const sliderNodes = document.querySelectorAll(".image-slider");
   sliderNodes.forEach((node, index) => {
-    applyStyle(node, { position: "relative" });
+    node.style.position = "relative";
     const slider = ImageSlider(node);
     sliderNodes[index].replaceWith(slider);
   });
@@ -11,27 +12,6 @@ const init = () => {
 
 const SliderComponent = {
   init,
-};
-
-const indicatorItem = {
-  width: "1em",
-  height: "0.33em",
-  borderRadius: "1em",
-};
-
-const indicator = {
-  boxSizing: "border-box",
-  position: "absolute",
-  bottom: "0",
-  width: "100%",
-  height: "14%",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "flex-end",
-  gap: "0.8em",
-  padding: "1em",
-  backgroundImage:
-    "linear-gradient(transparent, rgba(12,12,12,0.1), rgba(12,12,12,0.3), rgba(12,12,12,0.6))",
 };
 
 const ImageSlider = (node) => {
@@ -79,12 +59,12 @@ const ImageLooper = (parent) => {
 
 const SlideIndicator = (parent, length) => {
   const root = document.createElement("div");
-  applyStyle(root, indicator);
+  root.classList.add("slider-navigation");
   parent.append(root);
 
   for (let i = 0; i < length; i++) {
     const dot = document.createElement("div");
-    applyStyle(dot, indicatorItem);
+    dot.classList.add("slider-navigation-cell");
     root.append(dot);
 
     dot.style.backgroundColor = root.computedStyleMap().get("color");
@@ -101,7 +81,3 @@ const SlideIndicator = (parent, length) => {
     update,
   };
 };
-
-function applyStyle(target, styleObject) {
-  Object.assign(target.style, styleObject);
-}
