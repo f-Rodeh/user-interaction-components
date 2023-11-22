@@ -64,6 +64,8 @@ function Navigation(parent, length) {
     container.append(dot);
   }
 
+  highlight(0);
+
   if (parent.dataset.noGradient) {
     container.style.backgroundImage = "none";
   }
