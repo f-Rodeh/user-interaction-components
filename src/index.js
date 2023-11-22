@@ -1,4 +1,3 @@
-import { SliderComponent } from './components/image-slider'
-import './style.css'
-
-SliderComponent.init();
+import { SliderComponent } from "./components/image-slider";
+import "./components/test.js";
+import "./style.css";

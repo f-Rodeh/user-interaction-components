@@ -1,83 +1,81 @@
-export { SliderComponent };
+export {};
 import "./image-slider.css";
 
-const init = () => {
-  const sliderNodes = document.querySelectorAll(".image-slider");
-  sliderNodes.forEach((node, index) => {
-    node.style.position = "relative";
-    const slider = ImageSlider(node);
-    sliderNodes[index].replaceWith(slider);
-  });
-};
+document.querySelectorAll(".image-slider").forEach((slider) => {
+  const s = ImageSlider(slider);
+  slider.replaceWith(s.node);
+});
 
-const SliderComponent = {
-  init,
-};
-
-const ImageSlider = (node) => {
+function ImageSlider(node) {
   let index = 0;
-  const length = node.children.length;
-  const looper = ImageLooper(node);
-  const indicator = SlideIndicator(node, length);
+  const imageManager = Images(node);
+  const navigation = Navigation(node, imageManager.length);
 
+  node.style.position = "relative";
   node.firstElementChild.addEventListener("load", () =>
     setInterval(slideNext, 5000)
   );
 
   function slideNext() {
-    console.log();
     incrementIndex();
-    looper.update(index);
-    indicator.update(index);
+    imageManager.display(index);
+    navigation.highlight(index);
   }
+
+  function slidePrevious() {}
 
   function incrementIndex() {
-    index < length - 1 ? index++ : (index = 0);
+    index < imageManager.length - 1 ? index++ : (index = 0);
   }
 
-  return node;
-};
+  return {
+    index,
+    node,
+  };
+}
 
-const ImageLooper = (parent) => {
+function Images(parent) {
   const images = [...parent.children];
-
+  const length = images.length;
   images.forEach((img) => {
-    img.style.width = "100%";
-    img.style.height = "100%";
     parent.removeChild(img);
     parent.append(images[0]);
   });
 
-  function update(index) {
+  function display(index) {
     parent.replaceChild(images[index], parent.firstElementChild);
   }
 
   return {
-    update,
+    display,
+    length,
   };
-};
+}
 
-const SlideIndicator = (parent, length) => {
-  const root = document.createElement("div");
-  root.classList.add("slider-navigation");
-  parent.append(root);
+function Navigation(parent, length) {
+  const container = document.createElement("div");
+  container.classList.add("slider-navigation");
+  parent.append(container);
 
   for (let i = 0; i < length; i++) {
     const dot = document.createElement("div");
     dot.classList.add("slider-navigation-cell");
-    root.append(dot);
-
-    dot.style.backgroundColor = root.computedStyleMap().get("color");
+    dot.style.backgroundColor = container.computedStyleMap().get("color");
+    container.append(dot);
   }
-  console.log(parent);
-  console.log(parent.dataset);
 
   if (parent.dataset.noGradient) {
-    root.style.backgroundImage = "none";
+    container.style.backgroundImage = "none";
   }
 
-  function update() {}
+  function highlight(index) {
+    container.childNodes.forEach((dot, i) => {
+      dot.style.opacity = 0.6;
+      if (i === index) dot.style.opacity = 1;
+    });
+  }
+
   return {
-    update,
+    highlight,
   };
-};
+}
