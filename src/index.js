@@ -1,3 +1,4 @@
 import { SliderComponent } from "./components/image-slider";
-import "./components/test.js";
+import "./components/image-slider.js";
+import "./components/dropdown.js";
 import "./style.css";
