@@ -53,7 +53,7 @@ function toggleMenuVisibility() {
 ddButton.append(icon);
 
 const Dropdown = () => {
-  const component = document.createElement("div");
+  const component = document.createElement("span");
   component.append(ddButton, contentMenu); //TODO: replace with node COPIES, not the actual nodes;
 
   return component;
