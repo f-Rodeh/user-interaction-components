@@ -14,6 +14,7 @@ const MaterialIcon = (name) => {
 const icon = MaterialIcon("more_vert");
 const contentMenu = document.createElement("ul");
 contentMenu.classList.add("r_dropdown_content_menu");
+contentMenu.dataset.r_menu_visible = false;
 
 const appendItem = (title, subtitle = "", MaterialIconName = null) => {
   const menuItem = document.createElement("li");
@@ -37,8 +38,17 @@ const appendItem = (title, subtitle = "", MaterialIconName = null) => {
   contentMenu.append(menuItem);
 };
 
-appendItem("Hola", "saluda al dropdown", "check_box");
-appendItem("Segundo veridis quo", "reproduce la cancion de Daft Punk", "star");
+appendItem("Just Title");
+appendItem("Title", "And description");
+appendItem("Icon", "", "star");
+appendItem("Another one", "Icon followed by description", "home");
+
+ddButton.addEventListener("click", toggleMenuVisibility);
+
+function toggleMenuVisibility() {
+  const state = contentMenu.dataset.r_menu_visible;
+  contentMenu.dataset.r_menu_visible = state === "false" ? true : false;
+}
 
 ddButton.append(icon);
 document.body.append(ddButton, contentMenu);
