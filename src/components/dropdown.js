@@ -2,7 +2,7 @@ export {};
 import "./dropdown.css";
 
 const ddButton = document.createElement("button");
-ddButton.classList.add("r_dropdown");
+ddButton.classList.add("r_dropdown_button");
 
 const MaterialIcon = (name) => {
   const icon = document.createElement("span");
@@ -43,30 +43,27 @@ appendItem("Title", "And description");
 appendItem("Icon", "", "star");
 appendItem("Another one", "Icon followed by description", "home");
 
-ddButton.addEventListener("click", toggleMenuVisibility);
-
-function toggleMenuVisibility() {
-  const state = contentMenu.dataset.r_menu_visible;
-  contentMenu.dataset.r_menu_visible = state === "false" ? true : false;
-}
-
 ddButton.append(icon);
+
+function toggleVisibility(component) {
+  const state = component.dataset.r_menu_visible;
+  component.dataset.r_menu_visible = state === "false" ? true : false;
+}
 
 const Dropdown = () => {
   const component = document.createElement("span");
-  component.append(ddButton, contentMenu); //TODO: replace with node COPIES, not the actual nodes;
+  component.classList.add("r_dropdown");
+  component.dataset.r_menu_visible = false;
 
+  const button = ddButton.cloneNode(true);
+  button.addEventListener("click", () => toggleVisibility(component));
+
+  component.append(button, contentMenu.cloneNode(true));
   return component;
 };
 
 const testDropdown = Dropdown();
 document.body.append(testDropdown);
 
-const testElement = document.createElement("div");
-testElement.classList.add("r_test_element");
-document.body.append(testElement);
-
 //TODO: Dismiss menu on click (outside of the menu);
-//TODO: Test positioning of the menu;
-//TODO: Add possibility of several dropdowns working independently;
 //TODO: Add option to align menu to end instead of start
