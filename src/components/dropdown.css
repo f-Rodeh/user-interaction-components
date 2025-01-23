@@ -38,6 +38,7 @@ li.r_menu_item:active {
   padding: 6px 0px;
   min-width: max-content;
   max-width: 400px;
+  position: absolute;
 }
 
 .r_dropdown_content_menu[data-r_menu_visible="false"] {

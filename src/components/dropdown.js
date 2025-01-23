@@ -51,4 +51,22 @@ function toggleMenuVisibility() {
 }
 
 ddButton.append(icon);
-document.body.append(ddButton, contentMenu);
+
+const Dropdown = () => {
+  const component = document.createElement("div");
+  component.append(ddButton, contentMenu); //TODO: replace with node COPIES, not the actual nodes;
+
+  return component;
+};
+
+const testDropdown = Dropdown();
+document.body.append(testDropdown);
+
+const testElement = document.createElement("div");
+testElement.classList.add("r_test_element");
+document.body.append(testElement);
+
+//TODO: Dismiss menu on click (outside of the menu);
+//TODO: Test positioning of the menu;
+//TODO: Add possibility of several dropdowns working independently;
+//TODO: Add option to align menu to end instead of start
