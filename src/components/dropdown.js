@@ -4,6 +4,9 @@ import "./dropdown.css";
 const ddButton = document.createElement("button");
 ddButton.classList.add("r_dropdown_button");
 
+const contentMenu = document.createElement("ul");
+contentMenu.classList.add("r_dropdown_content_menu");
+
 const MaterialIcon = (name) => {
   const icon = document.createElement("span");
   icon.textContent = name;
@@ -12,8 +15,7 @@ const MaterialIcon = (name) => {
 };
 
 const icon = MaterialIcon("more_vert");
-const contentMenu = document.createElement("ul");
-contentMenu.classList.add("r_dropdown_content_menu");
+ddButton.append(icon);
 
 const Item = (title, subtitle = "", MaterialIconName = null) => {
   const menuItem = document.createElement("li");
@@ -37,17 +39,10 @@ const Item = (title, subtitle = "", MaterialIconName = null) => {
   return menuItem;
 };
 
-// appendItem("Just Title");
-// appendItem("Title", "And description");
-// appendItem("Icon", "", "star");
-// appendItem("Another one", "Icon followed by description", "home");
-
-ddButton.append(icon);
-
-function toggleVisibility(component) {
+const toggleMenu = (component) => {
   const state = component.dataset.r_menu_visible;
   component.dataset.r_menu_visible = state === "false" ? true : false;
-}
+};
 
 const Dropdown = () => {
   const component = document.createElement("span");
@@ -63,7 +58,7 @@ const Dropdown = () => {
     menu.append(item);
   }
 
-  button.addEventListener("click", () => toggleVisibility(component));
+  button.addEventListener("click", () => toggleMenu(component));
 
   component.append(button, menu);
   return {
